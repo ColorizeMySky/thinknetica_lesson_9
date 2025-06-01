@@ -27,8 +27,12 @@ require_relative 'modules/validators/station_validator'
 # - Разрешает только буквы, цифры, пробелы и дефисы в названии
 class Station
   include InstanceCounter
-  include Validator
+  include Validation
   include StationValidator
+
+  validate :title, :presence
+  validate :title, :format, StationValidator::TITLE_FORMAT
+  validate :title, :type, String
 
   attr_reader :title, :trains
 

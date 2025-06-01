@@ -28,8 +28,10 @@ require_relative 'modules/validators/wagon_validator'
 # - Автоматически проверяет валидность данных при создании
 class Wagon
   include ManufacturingCompanies
-  include Validator
+  include Validation
   include WagonValidator
+
+  validate :total_place, :type, Integer
 
   attr_reader :type
 

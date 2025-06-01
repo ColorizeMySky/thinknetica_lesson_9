@@ -33,13 +33,10 @@ require_relative 'modules/validators/train_validator'
 class Train
   include InstanceCounter
   include ManufacturingCompanies
-  include Validator
+  include Validation
   include TrainValidator
 
   attr_reader :number, :wagons, :type, :route, :current_station_index, :speed
-
-  NUMBER_FORMAT = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/i.freeze
-  VALID_TYPES = %w[cargo passenger].freeze
 
   @trains = []
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './validator'
+
 # Модуль StationValidator предоставляет валидацию названий железнодорожных станций.
 # Выполняет комплексную проверку корректности названия станции по трем критериям:
 #
@@ -39,6 +41,8 @@
 #   validate_length   - проверяет длину названия
 #   validate_format   - проверяет допустимость символов
 module StationValidator
+  include Validation
+
   TITLE_FORMAT = /^[a-zа-я0-9\s-]+$/i.freeze
   MIN_TITLE_LENGTH = 2
   MAX_TITLE_LENGTH = 50
@@ -46,6 +50,7 @@ module StationValidator
   private
 
   def validate!
+    super
     errors = []
     validate_presence(errors)
     validate_length(errors)

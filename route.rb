@@ -27,8 +27,10 @@ require_relative 'modules/validators/route_validator'
 # - Позволяет добавлять станции на указанную позицию (по умолчанию предпоследнюю)
 class Route
   include InstanceCounter
-  include Validator
+  include Validation
   include RouteValidator
+
+  validate :stations, :type, Array 
 
   attr_reader :stations
 

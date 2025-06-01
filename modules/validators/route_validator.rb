@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './validator'
+
 # Модуль RouteValidator предоставляет базовую валидацию для маршрутов.
 # Выполняет проверки корректности начальной и конечной станций маршрута.
 #
@@ -27,9 +29,12 @@
 # Исключения:
 #   Вызывает RuntimeError с объединенным списком ошибок, если валидация не пройдена
 module RouteValidator
+  include Validation
+
   private
 
   def validate!
+    super
     errors = []
     errors << 'Начальная станция не может отсутствовать' if @stations.first.nil?
     errors << 'Конечная станция не может отсутствовать' if @stations.last.nil?
