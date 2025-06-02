@@ -47,31 +47,21 @@ module StationValidator
   MIN_TITLE_LENGTH = 2
   MAX_TITLE_LENGTH = 50
 
-  private
-
-  def validate!
-    super
-    errors = []
-    validate_presence(errors)
-    validate_length(errors)
-    validate_format(errors)
-
-    raise errors.join("\n") unless errors.empty?
-  end
-
-  def validate_presence(errors)
-    errors << 'Название не может отсутствовать' if title.to_s.strip.empty?
-  end
-
-  def validate_length(errors)
-    if title.length < MIN_TITLE_LENGTH
-      errors << "Название станции слишком короткое (минимум #{MIN_TITLE_LENGTH} символа)"
-    elsif title.length > MAX_TITLE_LENGTH
-      errors << "Название станции слишком длинное (максимум #{MAX_TITLE_LENGTH} символов)"
+  def self.included(base)
+    base.class_eval do
+      validate :title, :presence, "Название станции не может быть пустым"
+      validate :title, :format, TITLE_FORMAT, "Название станции содержит недопустимые символы"
+      validate :title, :length
     end
   end
 
-  def validate_format(errors)
-    errors << 'Название станции содержит недопустимые символы' unless title !~ TITLE_FORMAT
+  private
+
+  def validate_length(name, value)
+    if value.to_s.length < MIN_TITLE_LENGTH
+      raise "Название слишком короткое (минимум #{MIN_TITLE_LENGTH} символа)"
+    elsif value.to_s.length > MAX_TITLE_LENGTH
+      raise "Название слишком длинное (максимум #{MAX_TITLE_LENGTH} символов)"
+    end
   end
 end

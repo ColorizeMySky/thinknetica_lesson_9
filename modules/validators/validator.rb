@@ -50,12 +50,14 @@ module Validation
 
     private
 
-    def validate_presence(name, value)
-      raise "#{name} can't be blank" if value.nil? || (value.is_a?(String) && value.empty?)
+    def validate_presence(name, value, message = nil)
+      message ||= "#{name} не может быть пустым"
+      raise message if value.nil? || (value.is_a?(String) && value.empty?)
     end
 
-    def validate_format(name, value, regex)
-      raise "#{name} has invalid format" unless value.to_s.match(regex)
+    def validate_format(name, value, regex, message = nil)
+      message ||= "#{name} содержит недопустимые символы"
+      raise message unless value.to_s.match(regex)
     end
 
     def validate_type(name, value, klass)
