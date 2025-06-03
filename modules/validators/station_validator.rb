@@ -50,8 +50,8 @@ module StationValidator
   def self.included(base)
     base.extend Validation::ClassMethods
     base.class_eval do
-      validate :title, :presence, "Название станции не может быть пустым"
-      validate :title, :format, TITLE_FORMAT, "Название станции содержит недопустимые символы"
+      validate :title, :presence, 'Название станции не может быть пустым'
+      validate :title, :format, TITLE_FORMAT, 'Название станции содержит недопустимые символы'
       validate :title, :length
     end
   end

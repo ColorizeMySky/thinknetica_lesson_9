@@ -24,20 +24,7 @@ module WagonActions
 
   def add_wagon_to_train
     @selected_train = select_entity(@trains)
-
-    case @selected_train.type
-    when 'passenger'
-      puts 'Введите количество мест: '
-      seats = gets.chomp.to_i
-      wagon = PassengerWagon.new(seats)
-    when 'cargo'
-      puts 'Введите объём вагона: '
-      volume = gets.chomp.to_i
-      wagon = CargoWagon.new(volume)
-    else
-      raise 'Неизвестный тип поезда. Допустимые значения: "cargo", "passenger"'
-    end
-
+    wagon = create_wagon_for_train(@selected_train)
     @selected_train.add_wagon(wagon)
     @wagons << wagon
   end
@@ -81,5 +68,18 @@ module WagonActions
     volume = gets.to_f
     wagon.take_volume(volume)
     puts "Занято #{volume} объёма"
+  end
+
+  def create_wagon_for_train(train)
+    case train.type
+    when 'passenger'
+      puts 'Введите количество мест: '
+      PassengerWagon.new(gets.chomp.to_i)
+    when 'cargo'
+      puts 'Введите объём вагона: '
+      CargoWagon.new(gets.chomp.to_i)
+    else
+      raise 'Неизвестный тип поезда. Допустимые значения: "cargo", "passenger"'
+    end
   end
 end

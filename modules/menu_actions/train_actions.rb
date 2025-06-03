@@ -14,23 +14,11 @@ module TrainActions
   private
 
   def create_train
-    puts 'Введите номер поезда: '
-    number = gets.chomp
-    puts 'Выберите тип (1 - пассажирский, 2 - грузовой): '
-    type = gets.chomp.to_i
+    number, type = ask_train_details
+    train = build_train(number, type)
+    @trains << train
 
-    case type
-    when 1
-      @trains << PassengerTrain.new(number)
-      type = 'пассажирский'
-    when 2
-      @trains << CargoTrain.new(number)
-      type = 'грузовой'
-    else
-      raise 'Неизвестный тип вагона. Допустимые значения: "cargo", "passenger"'
-    end
-
-    puts "Создан поезд № #{number} (#{type})"
+    puts "Создан поезд № #{number} (#{type == 1 ? 'пассажирский' : 'грузовой'})"
   rescue StandardError => e
     puts "Ошибка: #{e.message}"
     retry
@@ -42,5 +30,20 @@ module TrainActions
     direction = gets.chomp.to_i
 
     direction == 1 ? @selected_train.go_forward : @selected_train.go_backward
+  end
+
+  def ask_train_details
+    puts 'Введите номер поезда: '
+    number = gets.chomp
+    puts 'Выберите тип (1 - пассажирский, 2 - грузовой): '
+    [number, gets.chomp.to_i]
+  end
+
+  def build_train(number, type)
+    case type
+    when 1 then PassengerTrain.new(number)
+    when 2 then CargoTrain.new(number)
+    else raise 'Неизвестный тип поезда'
+    end
   end
 end

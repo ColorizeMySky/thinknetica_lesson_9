@@ -35,9 +35,7 @@ module Validation
 
   module InstanceMethods
     def validate!
-      puts(555, self.class.validations)
       self.class.validations.each do |validation|
-        puts(222, "inside validate", validation)
         value = instance_variable_get("@#{validation[:name]}".to_sym)
         send("validate_#{validation[:type]}", validation[:name], value, *validation[:options])
       end
@@ -46,20 +44,18 @@ module Validation
     def valid?
       validate!
       true
-    rescue
+    rescue StandardError
       false
     end
 
     private
 
     def validate_presence(name, value, message = nil)
-      puts(444, "validate_presence")
       message ||= "#{name} не может быть пустым"
       raise message if value.nil? || (value.is_a?(String) && value.empty?)
     end
 
     def validate_format(name, value, regex, message = nil)
-      puts(333, "validate_format")
       message ||= "#{name} содержит недопустимые символы"
       raise message unless value.to_s.match(regex)
     end

@@ -33,8 +33,8 @@ module TrainValidator
     base.include Validation::InstanceMethods
 
     base.class_eval do
-      validate :number, :presence, "Номер не может быть пустым"
-      validate :number, :format, NUMBER_FORMAT, "Номер имеет недопустимый формат"
+      validate :number, :presence, 'Номер не может быть пустым'
+      validate :number, :format, NUMBER_FORMAT, 'Номер имеет недопустимый формат'
     end
   end
 end
