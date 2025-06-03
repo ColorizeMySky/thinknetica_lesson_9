@@ -24,7 +24,7 @@ module RouteActions
   end
 
   def add_station_to_route
-    select_entity(@routes)
+    @selected_route = select_entity(@routes)
     puts 'Введите номер станции для добавления: '
     station_index = gets.chomp.to_i - 1
     puts 'Введите позицию (по умолчанию предпоследняя): '
@@ -42,8 +42,8 @@ module RouteActions
   end
 
   def assign_route_to_train
-    select_entity(@trains)
-    select_entity(@routes)
+    @selected_train = select_entity(@trains)
+    @selected_route = select_entity(@routes)
     @selected_train.assign_route(@selected_route)
   end
 end

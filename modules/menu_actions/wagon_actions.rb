@@ -23,14 +23,27 @@ module WagonActions
   end
 
   def add_wagon_to_train
-    select_entity(@trains)
-    wagon = Wagon.new(@selected_train.type)
+    @selected_train = select_entity(@trains)
+
+    case @selected_train.type
+    when 'passenger'
+      puts 'Введите количество мест: '
+      seats = gets.chomp.to_i
+      wagon = PassengerWagon.new(seats)
+    when 'cargo'
+      puts 'Введите объём вагона: '
+      volume = gets.chomp.to_i
+      wagon = CargoWagon.new(volume)
+    else
+      raise 'Неизвестный тип поезда. Допустимые значения: "cargo", "passenger"'
+    end
+
     @selected_train.add_wagon(wagon)
     @wagons << wagon
   end
 
   def remove_wagon_from_train
-    select_entity(@trains)
+    @selected_train = select_entity(@trains)
     return if @selected_train.wagons.empty?
 
     wagon = @selected_train.wagons.last
@@ -38,7 +51,7 @@ module WagonActions
   end
 
   def occupy_space_in_wagon
-    select_entity(@trains)
+    @selected_train = select_entity(@trains)
     puts 'Номер вагона: '
     wagon = @selected_train.wagons[gets.to_i - 1]
 

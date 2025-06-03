@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative '../../passenger_wagon'
+require_relative '../../cargo_wagon'
+
 # Модуль для работы с поездами в железнодорожной системе.
 # Содержит методы для создания поездов и управления их движением.
 #
