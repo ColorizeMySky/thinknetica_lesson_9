@@ -30,7 +30,7 @@ class Route
   include Validation
   include RouteValidator
 
-  validate :stations, :type, Array 
+  validate :stations, :type, Array
 
   attr_reader :stations
 

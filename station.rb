@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'modules/instance_counter'
-require_relative 'modules/validators/validator'
 require_relative 'modules/validators/station_validator'
 
 # Класс Station представляет железнодорожную станцию в системе управления.
@@ -27,12 +26,7 @@ require_relative 'modules/validators/station_validator'
 # - Разрешает только буквы, цифры, пробелы и дефисы в названии
 class Station
   include InstanceCounter
-  include Validation
   include StationValidator
-
-  validate :title, :presence
-  validate :title, :format, StationValidator::TITLE_FORMAT
-  validate :title, :type, String
 
   attr_reader :title, :trains
 

@@ -13,6 +13,7 @@ module StationActions
     puts 'Введите название станции: '
     name = gets.chomp
     @stations << Station.new(name)
+    puts "Создана станция #{name}"
   rescue StandardError => e
     puts "Ошибка: #{e.message}"
     retry

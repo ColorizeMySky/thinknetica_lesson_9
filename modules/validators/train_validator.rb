@@ -27,26 +27,14 @@ module TrainValidator
   include Validation
 
   NUMBER_FORMAT = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/i.freeze
-  VALID_TYPES = %w[cargo passenger].freeze
 
-  private
+  def self.included(base)
+    base.extend Validation::ClassMethods
+    base.include Validation::InstanceMethods
 
-  def validate!
-    super
-    errors = []
-    validate_number(errors)
-    validate_type(errors)
-
-    raise errors.join("\n") unless errors.empty?
-  end
-
-  def validate_number(errors)
-    errors << 'Номер не может отсутствовать' if number.to_s.strip.empty?
-    errors << 'Номер имеет недопустимый формат' if number !~ NUMBER_FORMAT
-  end
-
-  def validate_type(errors)
-    errors << 'Тип поезда не может отсутствовать' if type.to_s.strip.empty?
-    errors << "Неизвестный тип поезда. Допустимые значения: #{VALID_TYPES.join(', ')}" unless VALID_TYPES.include?(type)
+    base.class_eval do
+      validate :number, :presence, "Номер не может быть пустым"
+      validate :number, :format, NUMBER_FORMAT, "Номер имеет недопустимый формат"
+    end
   end
 end

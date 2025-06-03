@@ -48,11 +48,11 @@ class Train
     end
 
     def all
-      trains
+      trains || []
     end
 
     def add_train(train)
-      trains << train
+      all << train
     end
   end
 
@@ -126,10 +126,8 @@ class Train
 
   private
 
-  # прячем прямой доступ к изменению скорости и количеству вагонов
   attr_writer :speed, :wagons, :route, :current_station_index
 
-  # в спецификации не требуется доступ к этим методам, это внутренная логика
   def route?
     route
   end

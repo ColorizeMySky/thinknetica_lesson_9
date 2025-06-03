@@ -16,9 +16,18 @@ module TrainActions
     puts 'Выберите тип (1 - пассажирский, 2 - грузовой): '
     type = gets.chomp.to_i
 
-    train = type == 1 ? PassengerTrain.new(number) : CargoTrain.new(number)
-    @trains << train
-    puts "Создан поезд №#{number} (#{train.type})"
+    case type
+    when 1
+      @trains << PassengerTrain.new(number)
+      type = 'пассажирский'
+    when 2
+      @trains << CargoTrain.new(number)
+      type = 'грузовой'
+    else
+      raise 'Неизвестный тип вагона. Допустимые значения: "cargo", "passenger"'
+    end
+
+    puts "Создан поезд № #{number} (#{type})"
   rescue StandardError => e
     puts "Ошибка: #{e.message}"
     retry

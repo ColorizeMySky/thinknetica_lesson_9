@@ -48,6 +48,7 @@ module StationValidator
   MAX_TITLE_LENGTH = 50
 
   def self.included(base)
+    base.extend Validation::ClassMethods
     base.class_eval do
       validate :title, :presence, "Название станции не может быть пустым"
       validate :title, :format, TITLE_FORMAT, "Название станции содержит недопустимые символы"
@@ -57,7 +58,7 @@ module StationValidator
 
   private
 
-  def validate_length(name, value)
+  def validate_length(_, value)
     if value.to_s.length < MIN_TITLE_LENGTH
       raise "Название слишком короткое (минимум #{MIN_TITLE_LENGTH} символа)"
     elsif value.to_s.length > MAX_TITLE_LENGTH
